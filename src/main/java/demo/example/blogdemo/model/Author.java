@@ -28,4 +28,7 @@ public class Author {
         this.interested = interested;
         this.gender = gender;
     }
+    public Author(){
+
+    }
 }
