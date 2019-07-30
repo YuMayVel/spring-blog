@@ -25,6 +25,10 @@ public class Post implements Serializable {
     @ManyToOne
     private Author author;
 
+    public Post(){
+
+    }
+
     public Post(String tag, String body, LocalDate lastUpdated) {
         this.tag = tag;
         this.body = body;
