@@ -5,6 +5,7 @@ import demo.example.blogdemo.model.Gender;
 import demo.example.blogdemo.model.Post;
 import demo.example.blogdemo.repository.AuthorRepository;
 import demo.example.blogdemo.repository.PostRepository;
+import org.ocpsoft.prettytime.PrettyTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -51,5 +52,9 @@ public class BlogDemoApplication {
 
         };
     }
+    @Bean
+    public PrettyTime prettyTime(){
 
+        return new PrettyTime();
+    }
 }

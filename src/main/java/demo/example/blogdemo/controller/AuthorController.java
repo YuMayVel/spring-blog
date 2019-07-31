@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 
@@ -26,16 +27,18 @@ public class AuthorController {
     }
 
     @PostMapping("/author")
-    public String process (@Valid Author author, BindingResult result){
+    public String process (@Valid Author author, BindingResult result, RedirectAttributes redirectAttributes){
        if(result.hasErrors()){
            return "authorForm";
        }
        authorService.create(author);
+       redirectAttributes.addFlashAttribute("success",true);
        return "redirect:/authors";
     }
     @GetMapping("/authors")
     public String showallAuthors(Model model){
         model.addAttribute("authors",authorService.findall());
+        model.addAttribute("success",model.containsAttribute("success"));
         return "authors";
     }
 }
