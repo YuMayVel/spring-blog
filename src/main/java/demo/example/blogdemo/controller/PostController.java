@@ -1,22 +1,25 @@
 package demo.example.blogdemo.controller;
 
+import demo.example.blogdemo.model.PdfReport;
+import demo.example.blogdemo.model.PdfReport1;
 import demo.example.blogdemo.model.Post;
 import demo.example.blogdemo.service.AuthorService;
 import demo.example.blogdemo.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
+import java.io.ByteArrayInputStream;
 
 @Controller
 public class PostController {
@@ -71,6 +74,18 @@ public class PostController {
     }
 
     private Long updateId;
+
+    @GetMapping(value="/pdfreport",produces = MediaType.APPLICATION_PDF_VALUE)
+    public ResponseEntity<InputStreamResource> generatePdfReport(){
+        ByteArrayInputStream bis= PdfReport.postPdfViews(postService.findAll());
+        HttpHeaders headers=new HttpHeaders();
+        headers.add("Content-Disposition","inline;filename=postreport.pdf");
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(new InputStreamResource(bis));
+    }
 
 
 
